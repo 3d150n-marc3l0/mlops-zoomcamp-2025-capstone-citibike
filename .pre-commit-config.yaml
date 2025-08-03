@@ -1,0 +1,6 @@
+# .pre-commit-config.yaml
+-   repo: https://github.com/pre-commit/mirrors-flake8
+    rev: v7.3.0  # Usa la versión de flake8 que desees
+    hooks:
+    -   id: flake8
+        args: [--config=./.flake8]  # Especificamos el archivo de configuración que proporcionaste
