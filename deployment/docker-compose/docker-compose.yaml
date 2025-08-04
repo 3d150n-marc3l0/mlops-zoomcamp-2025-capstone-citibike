@@ -36,7 +36,7 @@ services:
       POSTGRES_PASSWORD: ${MLFLOW_BD_PASSWORD:-t3st01}
       POSTGRES_DB: ${MLFLOW_DB_NAME:-mlflow-db}
     volumes:
-      - "${MLFLOW_DB_VOLUME_DIR:-./data/db/mflow-db}:/var/lib/postgresql/data"
+      - "${MLFLOW_DB_VOLUME_DIR:-./data/db/mlflow-db}:/var/lib/postgresql/data"
     networks:
       - mlops-net
 
@@ -77,7 +77,7 @@ services:
       - MYSQL_DATABASE=${ZENML_DB_NAME:-zenmldb}
       - MYSQL_ROOT_PASSWORD=${ZENML_BD_ROOT_PASSWORD:-t3st01}
     volumes:
-      - "${ZENML_DB_VOLUME_DIR:-./data/db/mflow-db}/mysql-data:/var/lib/mysql"
+      - "${ZENML_DB_VOLUME_DIR:-./data/db/zenml-db}/mysql-data:/var/lib/mysql"
     networks:
       - mlops-net
   

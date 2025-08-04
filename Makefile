@@ -17,7 +17,7 @@ install-base:
 .PHONY: setup-local
 setup-local:
 	@echo "Create buckets and Restore informations"
-	sh ${ZENML_INFRA_PATH}/setup_local_stack.sh
+	sh ${ZENML_INFRA_PATH}/setup_local_stack.sh ${ENV_FILE}
 
 # Default target: start Docker Compose
 .PHONY: up
