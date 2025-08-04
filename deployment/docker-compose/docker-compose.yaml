@@ -51,10 +51,10 @@ services:
     ports:
       - "5000:5000"
     environment:
-      BACKEND_STORE_URI: postgresql://${MLFLOW_DB_USER:-root}:${MLFLOW_BD_PASSWORD:-t3st01}@mlflow-db:5432/${MLFLOW_DB_NAME:-mlflow-db}
+      BACKEND_STORE_URI: postgresql://${MLFLOW_DB_USER}:${MLFLOW_BD_PASSWORD}@mlflow-db:5432/${MLFLOW_DB_NAME:-mlflow-db}
       AWS_DEFAULT_REGION:  ${AWS_REGION:-eu-west-1}
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-test}
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-test}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       MLFLOW_TRACKING_URI: http://mlflow:5000      
       MLFLOW_S3_ENDPOINT_URL: http://localstack:4566      # LocalStack S3 endpoint
       MLFLOW_S3_IGNORE_TLS: true
@@ -74,8 +74,8 @@ services:
     ports:
       - "3306:3306"
     environment:
-      - MYSQL_DATABASE=${ZENML_DB_NAME:-zenmldb}
-      - MYSQL_ROOT_PASSWORD=${ZENML_BD_ROOT_PASSWORD:-t3st01}
+      - MYSQL_DATABASE=${ZENML_DB_NAME}
+      - MYSQL_ROOT_PASSWORD=${ZENML_BD_ROOT_PASSWORD}
     volumes:
       - "${ZENML_DB_VOLUME_DIR:-./data/db/zenml-db}/mysql-data:/var/lib/mysql"
     networks:
@@ -88,9 +88,9 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - ZENML_STORE_URL=mysql://root:${ZENML_BD_ROOT_PASSWORD:-t3st01}@host.docker.internal/${ZENML_DB_NAME:-zenmldb}
-      - ZENML_DEFAULT_USER_NAME=${ZENML_DEFAULT_USER_NAME:-admin}
-      - ZENML_DEFAULT_USER_PASSWORD=${ZENML_DEFAULT_USER_PASSWORD:-zenml}
+      - ZENML_STORE_URL=mysql://root:${ZENML_BD_ROOT_PASSWORD}@host.docker.internal/${ZENML_DB_NAME:-zenmldb}
+      - ZENML_DEFAULT_USER_NAME=${ZENML_DEFAULT_USER_NAME}
+      - ZENML_DEFAULT_USER_PASSWORD=${ZENML_DEFAULT_USER_PASSWORD}
     links:
       - zenml-db
     depends_on:
@@ -105,13 +105,13 @@ services:
   # BentoML: Service to serve models
   monitoring-db:
     image: postgres:15
-    container_name: "${GRAFANA_DB_DOCKER_NAME:-grafana-db}"
+    container_name: "${GRAFANA_DB_DOCKER_NAME:-monitoring-db}"
     restart: always
     ports:
       - "5433:5432"
     environment:
-      POSTGRES_USER: ${MONITORING_DB_USER:-admin}
-      POSTGRES_PASSWORD: ${MONITORING_BD_PASSWORD:-t3st01}
+      POSTGRES_USER: ${MONITORING_DB_USER}
+      POSTGRES_PASSWORD: ${MONITORING_BD_PASSWORD}
       POSTGRES_DB: ${MONITORING_DB_NAME:-monitoring-db}
     volumes:
       - "${MONITORING_DB_VOLUME_DIR:-./data/db/grafana-db}:/var/lib/postgresql/data"

@@ -216,6 +216,7 @@ requirements.dev.txt
 
 # 
 data/raw/citibike/
+data/stag/citibike/
 
 # Backups
 backup/
@@ -225,6 +226,8 @@ experiments/
 # 
 deployment/docker-compose/data/
 
+# Notebooks
+notebooks/mlruns/
 
 # Docker Volumes 
 volumes
