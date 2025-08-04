@@ -61,3 +61,10 @@ deploy-bentoml:
 monitoring:
 	@echo "Running the monitoring pipeline"
 	python run.py --pipeline monitoring --config_path $(ZENML_CONFIG_PATH)/pipelines.local.yaml
+
+
+# Run the Python pipeline with two parameters
+.PHONY: test-integration
+test-integration:
+	@echo "Running the test-integration"
+	pytest tests/integration/
