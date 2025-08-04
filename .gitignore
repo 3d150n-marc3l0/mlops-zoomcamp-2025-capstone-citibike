@@ -228,6 +228,7 @@ deployment/docker-compose/data/
 
 # Notebooks
 notebooks/mlruns/
+notebooks/workspace/
 
 # Docker Volumes 
 volumes
