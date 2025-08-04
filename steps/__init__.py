@@ -1,6 +1,9 @@
-
-
-from .data_loaders import data_loader, data_splitter, data_preprocessor, reference_data_loader
+from .data_loaders import (
+    data_loader,
+    data_splitter,
+    data_preprocessor,
+    reference_data_loader,
+)
 
 from .data_validator import citibike_data_report, citibike_data_test
 
@@ -21,3 +24,9 @@ from .model_deployer import local_mlflow_deployment_deploy
 from .model_validator import citibike_data_drift_report
 
 from .inference_predict import inference_predict
+
+from .model_monitor import (
+    calculate_drift_metrics_step,
+    create_table_step,
+    save_metrics_to_db_step,
+)
