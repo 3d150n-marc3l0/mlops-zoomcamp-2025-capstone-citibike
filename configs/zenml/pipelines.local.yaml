@@ -1,0 +1,43 @@
+# Pipeline parameters
+pipelines:
+  training:
+    parameters:
+      data_url: "http://localhost:4566/citibike-data/datasets/processed/"
+      start_train_date: "2025-01-01"
+      end_train_date: "2025-12-31"
+      test_size: 0.2
+      shuffle: True
+      random_state: 42
+      n_trials: 50
+      registered_model_name: "xgb-citibike-reg-model"
+
+  deploy-bentoml:
+    parameters:
+      model_name: "xgb-citibike-reg-model"
+      model_alias: "champion"
+      service_class: "service.py:CitibikeService"
+      working_dir: "./deployment/bentoml"
+      image_name: "mlop-zoomcamp-citibike"
+      image_tag: "0.1.0"
+      packages:
+      - "zenml==0.83.1"
+      - "mlflow==2.22.1"
+      - "numpy==1.26.4"
+      - "pandas==2.3.1"
+      - "psutil==5.9.8"
+      - "scikit-learn==1.7.0"
+      - "scipy==1.16.0"
+      - "xgboost==3.0.2"
+
+  monitoring:
+    parameters:
+      data_url: "http://localhost:4566/citibike-data/datasets/processed/"
+      model_name: "xgb-citibike-reg-model"
+      model_alias: "champion"
+      host: "monitoring-db"
+      port: 5433
+      database: "monitoring"
+      start_reference_date: "2024-01-01"
+      end_reference_date: "2024-03-31"
+      start_current_date: "2025-01-01"
+      end_current_date: "2025-03-31"
