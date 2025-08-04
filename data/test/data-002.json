@@ -1,0 +1,15 @@
+{
+    "instances": [{
+        "holiday": 1,
+        "TMAX": 47.0,
+        "TMIN": 36.0,
+        "hr_sin": 0.000000,
+        "hr_cos": 1.000000,
+        "weekday_sin": 0.0,
+        "weekday_cos": 1.0,
+        "week_sin": 0.0,
+        "week_cos": 1.0,
+        "mnth_sin": 0.0,
+        "mnth_cos": 1.0
+    }]
+}

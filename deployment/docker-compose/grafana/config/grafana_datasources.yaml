@@ -1,0 +1,17 @@
+# config file version
+apiVersion: 1
+
+# list of datasources to insert/update
+# available in the database
+datasources:
+  - name: PostgreSQL
+    type: postgres
+    access: proxy
+    url: monitoring-db:5432
+    database: monitoring
+    user: monitoring_user
+    secureJsonData:
+      password: 'm0n1t0r1ngAdm1nPa55'
+    jsonData:
+      sslmode: 'disable'
+      database: monitoring

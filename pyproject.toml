@@ -1,26 +1,33 @@
 [project]
 name = "mlops-zoomcamp-2025-capstone-citibike"
 version = "0.1.0"
-description = "capstone-citibike for mlops-zoomcamp-2025"
+description = "mlops-zoomcamp-2025-capstone-citibike"
 authors = [
     {name = "emmuzoo",email = "edison.marcelo.muzo.oyana@gmail.com"}
 ]
+license = {text = "MIT"}
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 dependencies = [
     "pip-tools (>=7.5.0,<8.0.0)",
-    "zenml (>=0.55.2)",
+    "zenml (>=0.55.2,<0.84.0)",
     "pdfkit (>=1.0.0,<2.0.0)",
     "optuna (<4)",
     "psycopg2-binary (>=2.9.10,<3.0.0)",
     "scikit-learn (<1.6.0)",
-    "pylint (>=3.3.7,<4.0.0)"
+    "pylint (>=3.3.7,<4.0.0)",
+    "holidays (>=0.77,<0.78)",
+    "pandas (>=2.0.0)",
+    "numpy (<3.0)",
+    "mlflow (>=2.1.1,<3)",
+    "xgboost (>=1.0.0)",
+    "seaborn (>=0.13.2,<0.14.0)",
+    "bokeh (>=3.7.3,<4.0.0)",
+    "evidently (>=0.4.16,<=0.4.22)"
 ]
 
-
-[build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
-build-backend = "poetry.core.masonry.api"
+[tool.poetry]
+package-mode = false
 
 [tool.poetry.group.dev.dependencies]
 jupyterlab = "^4.4.5"
@@ -30,3 +37,6 @@ pre-commit = "^4.2.0"
 flake8 = "^7.3.0"
 pytest = "^8.4.1"
 
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

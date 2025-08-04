@@ -208,12 +208,23 @@ __marimo__/
 
 
 
+.env
+
 # OLD requirements
 requirements.txt
 requirements.dev.txt
 
+# 
+data/raw/citibike/
+
 # Backups
-backup 
+backup/
+
+experiments/
+
+# 
+deployment/docker-compose/data/
+
 
 # Docker Volumes 
 volumes

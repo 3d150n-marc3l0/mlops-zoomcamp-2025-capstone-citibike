@@ -1,0 +1,141 @@
+#version: "3.8"
+
+services:
+  
+  localstack:
+    image: localstack/localstack
+    container_name: "${LOCALSTACK_DOCKER_NAME:-localstack}"
+    ports:
+      - "127.0.0.1:4566:4566"            # LocalStack Gateway
+      - "127.0.0.1:4510-4559:4510-4559"  # external services port range
+    environment:
+      - SERVICES=s3 
+      - DEBUG=1
+      - PERSISTENCE=1
+      - DEFAULT_REGION=${AWS_REGION:-eu-west-1}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-test}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-test}
+      - EXTRA_CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS:-http://mlops.cluster.local}
+    # ro = read only
+    volumes:
+      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - mlops-net
+
+  ################## Tracking Server ##################
+  # MLflow: Necessary to store mflow experiments
+  mlflow-db:
+    image: postgres:15
+    container_name: "${MLFLOW_DB_DOCKER_NAME:-mlflow-db}"
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${MLFLOW_DB_USER:-root}
+      POSTGRES_PASSWORD: ${MLFLOW_BD_PASSWORD:-t3st01}
+      POSTGRES_DB: ${MLFLOW_DB_NAME:-mlflow-db}
+    volumes:
+      - "${MLFLOW_DB_VOLUME_DIR:-./data/db/mflow-db}:/var/lib/postgresql/data"
+    networks:
+      - mlops-net
+
+
+  # MLflow: Service for monitoring experiments, using PostgreSQL as backend-store-uri
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:latest
+    container_name: "${MLFLOW_DOCKER_NAME:-mlflow}"
+    depends_on:
+      - mlflow-db
+      - localstack
+    ports:
+      - "5000:5000"
+    environment:
+      BACKEND_STORE_URI: postgresql://${MLFLOW_DB_USER:-root}:${MLFLOW_BD_PASSWORD:-t3st01}@mlflow-db:5432/${MLFLOW_DB_NAME:-mlflow-db}
+      AWS_DEFAULT_REGION:  ${AWS_REGION:-eu-west-1}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-test}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-test}
+      MLFLOW_TRACKING_URI: http://mlflow:5000      
+      MLFLOW_S3_ENDPOINT_URL: http://localstack:4566      # LocalStack S3 endpoint
+      MLFLOW_S3_IGNORE_TLS: true
+      ARTIFACT_DESTINATION: s3://${MLFLOW_BUCKET_NAME}    # Bucket name
+    command:
+      - /bin/sh
+      - -c
+      - python3 -m pip install pip --upgrade && pip install psycopg2-binary boto3 && mlflow server --backend-store-uri $${BACKEND_STORE_URI} --artifacts-destination $${ARTIFACT_DESTINATION} --serve-artifacts --host 0.0.0.0 --port 5000
+    networks:
+      - mlops-net
+
+  ######################### Workflow #########################
+  # ZenML: Necessary to store zenml pipelines
+  zenml-db:
+    image: mysql:8.0
+    container_name: "${ZENML_DB_DOCKER_NAME:-zenml-db}"
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=${ZENML_DB_NAME:-zenmldb}
+      - MYSQL_ROOT_PASSWORD=${ZENML_BD_ROOT_PASSWORD:-t3st01}
+    volumes:
+      - "${ZENML_DB_VOLUME_DIR:-./data/db/mflow-db}/mysql-data:/var/lib/mysql"
+    networks:
+      - mlops-net
+  
+  # ZenML: Service to orchestrate pipeline
+  zenml:
+    image: zenmldocker/zenml-server:0.83.1
+    container_name: "${ZENML_DOCKER_NAME:-zenml}"
+    ports:
+      - "8080:8080"
+    environment:
+      - ZENML_STORE_URL=mysql://root:${ZENML_BD_ROOT_PASSWORD:-t3st01}@host.docker.internal/${ZENML_DB_NAME:-zenmldb}
+      - ZENML_DEFAULT_USER_NAME=${ZENML_DEFAULT_USER_NAME:-admin}
+      - ZENML_DEFAULT_USER_PASSWORD=${ZENML_DEFAULT_USER_PASSWORD:-zenml}
+    links:
+      - zenml-db
+    depends_on:
+      - zenml-db
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: on-failure
+    networks:
+      - mlops-net
+
+  ################################ Monitoring  ################################
+  # BentoML: Service to serve models
+  monitoring-db:
+    image: postgres:15
+    container_name: "${GRAFANA_DB_DOCKER_NAME:-grafana-db}"
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: ${MONITORING_DB_USER:-admin}
+      POSTGRES_PASSWORD: ${MONITORING_BD_PASSWORD:-t3st01}
+      POSTGRES_DB: ${MONITORING_DB_NAME:-monitoring-db}
+    volumes:
+      - "${MONITORING_DB_VOLUME_DIR:-./data/db/grafana-db}:/var/lib/postgresql/data"
+    networks:
+      - mlops-net
+
+  grafana:
+    image: grafana/grafana-enterprise
+    container_name: grafana
+    restart: unless-stopped
+    # if you are running as root then set it to 0
+    # else find the right id with the id -u command
+    user: '0'
+    ports:
+      - '3030:3000'
+    # adding the mount volume point which we create earlier
+    volumes:
+      - '${GRAFANA_CONFIG_DIR:-./services/grafana}/config/grafana_datasources.yaml:/etc/grafana/provisioning/datasources/datasource.yaml:ro'
+      - '${GRAFANA_CONFIG_DIR:-./services/grafana}/config/grafana_dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml:ro'
+      - '${GRAFANA_CONFIG_DIR:-./services/grafana}/dashboards:/opt/grafana/dashboards'
+      - '${GRAFANA_SERVER_VOLUME_DIR:-./data/server/grafana-data}:/var/lib/grafana'
+    networks:
+      - mlops-net
+
+networks:
+  mlops-net:
+    driver: bridge
