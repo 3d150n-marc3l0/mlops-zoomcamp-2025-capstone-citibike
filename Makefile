@@ -11,7 +11,7 @@ ENV_FILE = .env
 .PHONY: install-base
 install-base:
 	@echo "Create buckets and Restore informations"
-	zenml integration install s3 sklearn xgboost mlflow evidently bentoml
+	zenml integration install s3 sklearn xgboost mlflow evidently bentoml -y
 
 # Default target: start Docker Compose
 .PHONY: setup-local
