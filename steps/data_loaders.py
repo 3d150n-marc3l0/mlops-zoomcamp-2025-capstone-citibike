@@ -20,6 +20,7 @@ DATASET_TARGET_COLUMN_NAME = "trips"
 DATASET_NUMERICAL_COLUMNS = [
     "TMAX",
     "TMIN",
+    "SNOW",
     "hr_sin",
     "hr_cos",
     "weekday_sin",
