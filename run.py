@@ -61,18 +61,7 @@ def main(
         ), f"Don't found '{pipeline}' config"
         train_config = pipelines_config[pipeline]["parameters"]
         print(train_config)
-        # citibike_training_pipeline(**train_config)
-        citibike_training_pipeline(
-            data_url=train_config["data_url"],
-            start_train_date=train_config["start_train_date"],
-            end_train_date=train_config["end_train_date"],
-            test_size=train_config["test_size"],
-            shuffle=train_config["shuffle"],
-            random_state=train_config["random_state"],
-            n_trials=train_config["n_trials"],
-            registered_model_name=train_config["registered_model_name"],
-        )
-
+        citibike_training_pipeline(**train_config)
     elif pipeline == MLFLOW_DEPLOYMENT_PIPELINE_NAME:
         logger.info(f"Runing {pipeline} ...")
         assert "parameters" in pipelines_config.get(

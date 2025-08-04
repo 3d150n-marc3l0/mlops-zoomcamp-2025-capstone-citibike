@@ -10,6 +10,7 @@ pipelines:
       random_state: 42
       n_trials: 50
       registered_model_name: "xgb-citibike-reg-model"
+      threshold: 0.1
 
   deploy-bentoml:
     parameters:
@@ -28,6 +29,7 @@ pipelines:
       - "scikit-learn==1.7.0"
       - "scipy==1.16.0"
       - "xgboost==3.0.2"
+      - "holidays==0.77"
 
   monitoring:
     parameters:

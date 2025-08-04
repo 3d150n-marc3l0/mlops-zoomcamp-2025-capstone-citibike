@@ -33,6 +33,7 @@ def citibike_training_pipeline(
     random_state: int = 42,
     n_trials: int = 50,
     registered_model_name: str = "xgb-citibike-reg-model",
+    threshold: float = 0.1,
 ):
     logger.info("train pipeline")
     logger.info(
@@ -98,7 +99,9 @@ def citibike_training_pipeline(
 
     # mlflow_register_model_step
     is_promoted = promote_models(
-        model_name=registered_model_name, after=["register_model"]
+        model_name=registered_model_name,
+        threshold=threshold,
+        after=["register_model"],
     )
 
     notify_on_success(is_promoted)

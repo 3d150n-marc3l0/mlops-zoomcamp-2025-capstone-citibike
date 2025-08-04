@@ -75,7 +75,7 @@ def bentoml_deployment_pipeline(
         port=3000,  # Port to be used by the http server
         deployment_type=BentoMLDeploymentType.CONTAINER,
         image=image_name,
-        # image_tag=image_tag,
+        image_tag=image_tag,
         platform="linux/amd64",
     )
 
