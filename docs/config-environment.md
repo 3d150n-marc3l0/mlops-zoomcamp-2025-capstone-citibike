@@ -122,6 +122,31 @@ which python
 This should show the path to the Python interpreter inside the virtual environment.
 
 
+
+## Brief Description for the .env Setup
+
+Before installing dependencies and starting the workflow, you need to set up your environment variables. Follow these steps to ensure your environment is properly configured:
+
+Copy the .env.local file to .env:
+
+The .env.local file contains a template for your environment variables. You must copy it to a new .env file.
+
+```bash
+cp .env.local .env
+```
+
+Customize your .env file:
+
+Open the .env file and customize it with your own credentials (e.g., passwords, API keys, etc.).
+
+Example:
+
+```bash
+AWS_ACCESS_KEY_ID=your_aws_access_key
+AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+DATABASE_PASSWORD=your_database_password
+```
+
 ## Installing dependencies and configuring zenml
 
 This section describes the steps for installing library dependencies with Poetry. It also describes the steps for installing third-party integrations with ZenML and creating the pipeline execution stack.
