@@ -46,11 +46,36 @@ make down
 
 
 ### **training**
-This command executes the training pipeline defined in your [`run.py`](../run.py) file. It loads the training configuration from [`pipelines.local.yaml`](../configs/zenml/pipelines.local.yaml) in the specified ZENML_CONFIG_PATH.
+This command executes the training pipeline defined in your [`run.py`](../run.py) file. It loads the training configuration from [`pipelines.local.yaml`](../configs/zenml/pipelines.local.yaml).
 
 ```bash
 make training
 ```
+
+In the zenml web console, go to the pipelines tab and select the one that starts with the name "citibike_training_pipeline". 
+
+![image](images/zenml-pipeline-list-train.jpg)
+
+We will be shown a list of all the executions of the training pipeline.
+
+We select the most recent execution
+
+
+This project uses mlflow to record experiments. The mlflow service runs at the following address [http://localhost:5000/](http://localhost:5000/).
+It also uses mlflow to manage candidate models and promote them to production whenever the candidate's rmse exceeds the **threshold** defined in the [pipelines.local.yaml](configs/zenml/pipelines.local.yaml). The registered model 'xgb-citibike-reg-model' is shown below.
+
+![image](images/zenml-pipeline-train-mflow-model-xgb-list.jpg)
+
+Note that there are several versions of the resisted model 'xgb-citibike-reg-model'. The best model is tagged with the alias champion, and the 'stage' tag is used to track its status. In this case, the model with the alias champion and the 'production' tag is the best model according to the RMSE metric and has been promoted to production. You can also see that the other models have been tagged with the 'stage' tag and the value 'archived' to mark them as archived.
+
+If we select the production model we can see that on its main page there is a link to its execution.
+
+![image](images/zenml-pipeline-train-mflow-model-xgb.jpg)
+
+On the registered model execution page, you can see the execution artifacts. You can also see that these artifacts are saved in a localstack bucket.
+
+![image](images/zenml-pipeline-train-mflow-model-xgb-artifacts.jpg)
+
 
 
 ### **deploy-bentoml**
