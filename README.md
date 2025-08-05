@@ -1,9 +1,9 @@
-# mlops-zoomcamp-2025-capstone-citibike
+# **mlops-zoomcamp-2025-capstone-citibike**
 
 ![image](docs/images/citibike-banner.jpg)
 
 
-## Introduction
+## **Introduction**
 
 The [Citibike system in New York City](https://citibikenyc.com/system-data) provides a convenient and sustainable mode of transportation for both residents and tourists. However, managing the system efficiently involves addressing several challenges, including optimizing bike availability, predicting demand across different areas, and minimizing system downtime.
 
@@ -18,7 +18,7 @@ Key challenges include:
 Analyzing and predicting these patterns is crucial for improving the user experience and operational efficiency, reducing costs, and supporting the growth of bike-sharing systems as an eco-friendly alternative to traditional transportation.
 
 
-### Objectives
+### **Objectives**
 
 The objective of this project is to build a predictive model for bike trips using the Citibike NYC dataset. The model will forecast the number of trips per hour, providing valuable insights into bike availability and demand. To achieve this, we seek to answer the following questions:
 
@@ -31,7 +31,7 @@ The objective of this project is to build a predictive model for bike trips usin
 - How can we implement best practices like unit testing, code formatting, and pre-commit hooks in the development process?
 
 
-### Overview
+### **Overview**
 
 This project aims to build a prediction model for bike trips using the Citibike NYC dataset. The model will forecast the number of trips per hour, providing valuable insights into bike availability and demand. After developing the predictive model, the project will focus on implementing an MLOps pipeline to manage the machine learning lifecycle, from model training and deployment to monitoring and maintenance.
 
@@ -56,7 +56,7 @@ To achieve this, the following tasks will be carried out:
 This project leverages a diverse set of technologies to support the development and deployment of machine learning models, containerization, and monitoring. For a detailed overview of the tools and libraries used, please refer to the [Technology Stack Documentation](docs/technology-stack.md).
 
 
-## Datasets
+## **Datasets**
 
 This project uses two primary datasets:
 
@@ -66,9 +66,14 @@ This project uses two primary datasets:
 
 For detailed descriptions of these datasets, please refer to the [Datasets Documentation](docs/datasets.md).
 
+## **Architecture Overview**
+
+This section provides an in-depth look at the architecture of the project, detailing the different modules involved and how they interact within the system. The architecture includes components for training, deployment, and monitoring, leveraging ZenML, BentoML, MLflow, and other essential technologies.
+
+For more detailed information about the project architecture, please refer to the [Architecture Documentation](docs/architecture.md).
 
 
-## Environment Setup
+## **Environment Setup**
 
 This project requires certain tools and configurations to run correctly. You must ensure that Python 3.12, Docker, and Docker Compose are installed. Additionally, **Poetry** and **Poetry Shell** are used for dependency management and creating isolated environments.
 
@@ -76,7 +81,7 @@ For detailed instructions on how to configure the environment and install the ne
 
 
 
-## Running the Workflow with ZenML
+## **Running the Workflow with ZenML**
 
 
 This section covers the steps to execute the end-to-end workflow using ZenML. It details how to install necessary dependencies, set up the local ZenML stack, start services, and run the various pipelines for training, deployment, and monitoring. Follow the guide in the [Running the Workflow with ZenML](docs/running-workflow.md) document for a detailed breakdown of each operation.
