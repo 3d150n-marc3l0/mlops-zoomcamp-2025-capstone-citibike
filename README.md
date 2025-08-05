@@ -72,6 +72,14 @@ This section describes the end-to-end machine learning workflow, from data proce
 
 You can learn more about the detailed workflow in the [ML Workflow documentation](docs/ml-workflow.md).
 
+## Exploratory Data Analysis (EDA) and Feature Engineering
+
+In the **Exploratory Data Analysis (EDA)** section, the dataset is thoroughly analyzed to identify patterns, trends, and potential issues such as missing values. The analysis also highlights key temporal factors influencing Citibike usage.
+
+The **Building and Selecting Key Features for Model Accuracy** section focuses on the process of creating and selecting relevant features to enhance model performance, including techniques like **feature importance** and **feature selection**.
+
+For detailed information, refer to the [EDA Documentation](docs/eda.md)
+
 
 ## **Architecture Overview**
 
