@@ -75,56 +75,10 @@ This project requires certain tools and configurations to run correctly. You mus
 For detailed instructions on how to configure the environment and install the necessary tools, please refer to the [Environment Setup Guide](docs/config-environment.md).
 
 
+## Run Workflow
 
-#### Installing dependencies
 
-```bash
-poetry install
-```
 
-#### Installing Poetry Shell
-
-The poetry shell command is used to spawn a new shell within the virtual environment created by Poetry for your project. This allows you to run commands and scripts within the virtual environment without having to manually activate it each time. To make things easier, Poetry Shell will be installed. To do so, run the following command:
-
-```bash
-poetry self add poetry-plugin-shell
-```
-Once 'poetry shell' is installed, we launch a new shell (command interpreter) within that environment using the following command.
-
-```bash
-poetry shell
-```
-The above command will have an output similar to the following output.
-
-```bash
-(mlops-zoomcamp-2025-capstone-citibike-py3.12) emmuzoo@DESKTOP-RUSHFLK:~/mlops-zoomcamp-2025-capstone-citibike$ 
-```
-
-You can test that everything is set up by executing:
-
-```bash
-python 
-Python 3.12.3 (main, Jun 18 2025, 17:59:45) [GCC 13.3.0] on linux
-Type "help", "copyright", "credits" or "license" for more information.
->>> exit()
-```
-
-### Setting With Poetry
-
-```bash
-cd ~/mlops-zoomcamp-2025-capstone-citibike
-poetry init
-```
-
- Install dependecies:
-```bash
-poetry add --group dev $(cat requirements.dev.txt)
-```
-
-```bash
-poetry add $(cat requirements.txt)
-
-```
 
 # Experiments
 ## Notebooks

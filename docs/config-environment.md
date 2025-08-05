@@ -120,3 +120,125 @@ which python
 ```
 
 This should show the path to the Python interpreter inside the virtual environment.
+
+
+## Installing dependencies and configuring zenml
+
+This section describes the steps for installing library dependencies with Poetry. It also describes the steps for installing third-party integrations with ZenML and creating the pipeline execution stack.
+
+### 1. **Install Python Dependencies with Poetry**
+
+First, install all the dependencies defined in the `pyproject.toml` file using Poetry:
+
+```bash
+poetry install
+```
+
+Verification: Verify Installation with poetry show
+To ensure that the dependencies were installed correctly, run the following command to list all installed dependencies:
+
+```bash
+poetry show
+```
+
+This command will list all the installed libraries in the Poetry-managed environment. Check that the required dependencies are present, such as ZenML and its integrations.
+
+### 2. **Install ZenML Dependencies (install-base)**
+
+Next, install the basic dependencies required for ZenML to operate. Use the Make command:
+
+```bash
+make install-base
+```
+
+After running make install-base, check if the ZenML integrations were successfully installed by running:
+
+```bash
+zenml integration list
+```
+
+This command will list all the ZenML integrations and show that the required dependencies (e.g., MLflow, BentoML, S3(LocalStack), etc.) are installed.
+
+### 3. **Start ZenML (up)**
+
+Once ZenML and its dependencies are installed, start ZenML and the associated services with Docker Compose:
+
+```bash
+make up
+```
+
+After starting ZenML with make up, use the following command to list all Docker containers:
+
+```bash
+docker ps -a
+```
+
+As a result, we will obtain a list of containers that represent the services defined in the docker-compose file and its result should look like the following:
+
+```batch
+CONTAINER ID   IMAGE                             COMMAND                  CREATED          STATUS                    PORTS                                                          NAMES
+3b198eed3915   ghcr.io/mlflow/mlflow:latest      "/bin/sh -c 'python3…"   38 minutes ago   Up 37 minutes             0.0.0.0:5000->5000/tcp, [::]:5000->5000/tcp                    mlflow
+7e355152de07   zenmldocker/zenml-server:0.83.1   "/entrypoint.sh uvic…"   38 minutes ago   Up 38 minutes             0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp                    zenml
+26dff654ba11   localstack/localstack             "docker-entrypoint.sh"   38 minutes ago   Up 38 minutes (healthy)   127.0.0.1:4510-4559->4510-4559/tcp, 127.0.0.1:4566->4566/tcp   localstack
+c5993f3cd026   postgres:15                       "docker-entrypoint.s…"   38 minutes ago   Up 38 minutes             0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp                    mlflow-db
+537732dd3ee3   postgres:15                       "docker-entrypoint.s…"   38 minutes ago   Up 38 minutes             0.0.0.0:5433->5432/tcp, [::]:5433->5432/tcp                    grafana-db
+2b8fc8b9d60e   grafana/grafana-enterprise        "/run.sh"                38 minutes ago   Up 38 minutes             0.0.0.0:3030->3000/tcp, [::]:3030->3000/tcp                    grafana
+e6b5c933cd6f   mysql:8.0                         "docker-entrypoint.s…"   38 minutes ago   Up 38 minutes             0.0.0.0:3306->3306/tcp, [::]:3306->3306/tcp  
+```
+
+### 4. **Login in Zenml**
+
+Once the orchestration has started, type the following address into your browser  [shttp://localhost:8080/login](http://localhost:8080/login). 
+
+The first time you start the ZenML server, you'll be presented with a web page to create a user in ZenML. Upon subsequent server startups, you must log in with the created user.
+
+![image](images/zenml-login.jpg)
+
+
+In order to request the execution of commands or pipelines on the server, we must obtain a token from it. To do this, we need to log in from the command line, to do this we execute the following command:
+
+```batch
+zenml login http://localhost:8080
+```
+
+The previous command provides us with a URL that we must type into a browser to authorize our machine to run pipeline.
+
+![image](images/zenml-authorize-device.jpg)
+
+
+Once the device is authorized, we can make requests to the zenml server.
+
+
+### 5. **Set Up the MLOps Stack in ZenML (setup-local)**
+
+Now that ZenML is running, set up the MLOps stack using the following Make command:
+
+```bash
+make setup-local
+```
+
+You can verify the setup by checking the ZenML Console or Web UI. After running make setup-local, check the ZenML interface to ensure the MLOps stack (including MLflow, BentoML, LocalStack) has been successfully configured. You can add relevant screenshots of the ZenML Console for visual confirmation.
+
+To verify the creation of the stack within the web console we navigate to the stack tab
+
+![image](images/zenml-stack.jpg)
+
+To verify the creation of the stack components within the web console, navigate to the components tab.
+
+![image](images/zenml-componets.jpg)
+
+We select the 'localstack store' component to see the configuration and arguments to establish the connection with localstack
+
+![image](images/zenml-componets.jpg)
+
+Two secrets have been created with the credentials to connect to the localstack (s3) and the monitoring database. To verify the creation of the secrets within the web console, navigate to the Settings tab and select the Secrets option.
+
+![image](images/zenml-secrets.jpg)
+
+The 's3_secret' secret contains the credentials to connect to localstack.
+
+![image](images/zenml-secrets-aws.jpg)
+
+The 'pg_monitoring_secret' secret contains the credentials to connect to the monitoring database.
+
+![image](images/zenml-secrets-pg-monitoring.jpg)
