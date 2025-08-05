@@ -347,3 +347,164 @@ The climate data is sourced from the **National Oceanic and Atmospheric Administ
 
 
 # **Building and Selecting Key Features for Model Accuracy**
+
+
+## Feature Engineering Process - Temporal Features
+The preprocess_data function performs several transformations and feature engineering steps to prepare the data for model training. These include generating new temporal features and applying transformations like sine and cosine functions to capture cyclical patterns in time-related variables.
+
+### Key Steps in the Feature Engineering Process:
+1. Extract Date Components:
+
+    - Day of the Week: A feature is created to represent the day of the week, ranging from 0 (Monday) to 6 (Sunday).
+
+    - Day of the Year: The day of the month is extracted to capture daily patterns.
+
+    - Week Number: The ISO week number is added to understand weekly trends.
+
+    - Month: The month of the year is extracted to capture seasonal effects.
+
+    - Year: The year is extracted for time-based segmentation.
+
+2. Cyclical Features:
+    - To capture the cyclical nature of time, sine and cosine transformations are applied to different time-based features. This is crucial because attributes like     hours, days of the week, and months follow periodic patterns. The following new features are created:
+
+        - Hour (hr_sin, hr_cos): Transforming the hour of the day (0-23) using sine and cosine to capture daily cycles.
+    
+        - Weekday (weekday_sin, weekday_cos): Sine and cosine transformations of the day of the week (0-6).
+
+        - Week (week_sin, week_cos): Sine and cosine transformations of the week number (1-52).
+
+        - Month (mnth_sin, mnth_cos): Sine and cosine transformations of the month (1-12).
+
+        - Day of the Year (day_sin, day_cos): Sine and cosine transformations for the day of the year (1-366) to account for the yearly cycle.
+
+3. Datetime Index:
+    - A new index is created by combining the date and hour columns into a datetime object. This index is helpful for time-based analysis and model training.
+
+4. Drop Unnecessary Columns:
+    - Columns such as date, hour, weekday, mnth, week_num, and others that are no longer needed for model training are dropped. Only the transformed features are retained.
+
+
+
+### Merged Citibike and Climate Data
+
+For the analysis, only the following climate features will be considered from the NYC Climate Dataset to simplify the analysis:
+
+- TMAX: Maximum temperature (in Fahrenheit).
+
+- TMIN: Minimum temperature (in Fahrenheit).
+
+- SNOW: Snowfall (in inches).
+
+These features are essential for understanding the weather's impact on bike usage, particularly in relation to temperature and snow conditions.
+
+#### Merging Process:
+The next step involves merging the Citibike dataset with the NYC Climate dataset. The merge will be done using the date field from the Citibike dataset and the DATE field from the climate dataset.
+
+- Merging Key:
+
+    - date (from the Citibike dataset)
+
+    - DATE (from the climate dataset)
+
+This merge will allow us to integrate the relevant weather features with the bike trip data, enabling us to analyze how temperature and snow conditions impact the number of Citibike trips on any given day.
+
+The dataset consists of hourly **Citibike trip data** merged with relevant **climate features**. The data includes both temporal and weather-related variables that help analyze the relationship between weather conditions and bike usage. Below is a description of the columns in the dataset:
+
+#### Columns:
+
+1. **trips**: The number of Citibike trips during the specified hour.
+2. **holiday**: A binary indicator showing whether the day is a public holiday in New York City.
+   - **1**: Public holiday.
+   - **0**: Non-holiday day.
+3. **TMAX**: The maximum temperature (in Fahrenheit) for the day.
+4. **TMIN**: The minimum temperature (in Fahrenheit) for the day.
+5. **SNOW**: The snowfall amount (in inches) for the day.
+6. **year**: The year of the data point.
+7. **hr_sin**: Sine transformation of the hour of the day (captures the cyclical nature of time).
+8. **hr_cos**: Cosine transformation of the hour of the day.
+9. **weekday_sin**: Sine transformation of the weekday (captures weekly cyclical patterns).
+10. **weekday_cos**: Cosine transformation of the weekday.
+11. **week_sin**: Sine transformation of the week number (captures weekly seasonal patterns).
+12. **week_cos**: Cosine transformation of the week number.
+13. **mnth_sin**: Sine transformation of the month number (captures monthly cyclical patterns).
+14. **mnth_cos**: Cosine transformation of the month number.
+15. **day_sin**: Sine transformation of the day of the year (captures yearly cyclical patterns).
+16. **day_cos**: Cosine transformation of the day of the year.
+
+#### Sample Data:
+
+| Date                | Trips | Holiday | TMAX | TMIN | SNOW | Year | Hr_sin  | Hr_cos  | Weekday_sin | Weekday_cos | Week_sin | Week_cos | Mnth_sin | Mnth_cos | Day_sin | Day_cos |
+|---------------------|-------|---------|------|------|------|------|---------|---------|-------------|-------------|----------|----------|----------|----------|---------|---------|
+| 2025-01-01 00:00:00 | 1583  | 1       | 52.0 | 40.0 | 0.0  | 2025 | 0.0000  | 1.0000  | 0.9749      | -0.2225     | 0.0      | 1.0      | 0.0      | 1.0      | 0.0     | 1.0     |
+| 2025-01-01 01:00:00 | 2676  | 1       | 52.0 | 40.0 | 0.0  | 2025 | 0.2588  | 0.9659  | 0.9749      | -0.2225     | 0.0      | 1.0      | 0.0      | 1.0      | 0.0     | 1.0     |
+| 2025-01-01 02:00:00 | 2260  | 1       | 52.0 | 40.0 | 0.0  | 2025 | 0.5000  | 0.8660  | 0.9749      | -0.2225     | 0.0      | 1.0      | 0.0      | 1.0      | 0.0     | 1.0     |
+| 2025-01-01 03:00:00 | 1324  | 1       | 52.0 | 40.0 | 0.0  | 2025 | 0.7071  | 0.7071  | 0.9749      | -0.2225     | 0.0      | 1.0      | 0.0      | 1.0      | 0.0     | 1.0     |
+| 2025-01-01 04:00:00 | 753   | 1       | 52.0 | 40.0 | 0.0  | 2025 | 0.8660  | 0.5000  | 0.9749      | -0.2225     | 0.0      | 1.0      | 0.0      | 1.0      | 0.0     | 1.0     |
+
+#### Purpose of the Dataset:
+This merged dataset allows for a comprehensive analysis of the relationship between **weather conditions** and **Citibike trip usage**. The **TMAX**, **TMIN**, and **SNOW** variables from the climate data provide insight into how temperature and snowfall impact bike trips. The **cyclical features** (such as **hourly**, **weekday**, and **monthly** transformations) capture temporal patterns in bike usage, which are essential for predictive modeling.
+
+## Feature Importance Calculation with XGBoost Regressor
+
+In the process of determining the most important features for predicting Citibike trip usage, we utilized the XGBoost Regressor to calculate the feature importance. XGBoost provides a feature importance score that indicates the contribution of each feature to the model’s predictive performance. The following table summarizes the importance of each feature, ranked by their contribution to the model:
+
+
+Scenario 1: All variables
+
+![image](images/feature-importance-v1.jpg)
+
+Scenario 2: Deleting the variables: "year", "day_cos"
+
+![image](images/feature-importance-v2.jpg)
+
+Scenario 3: Deleting the variables: "year", "day_cos", "day_sin"
+
+![image](images/feature-importance-v3.jpg)
+
+
+Below is a table showing the mse metrics for the three scenarios described above.
+
+| Scenario                           | MSE                |
+|------------------------------------|--------------------|
+| All Features                       | 414,481.61         |
+| Remove "year", "day_cos"           | 414,481.61         |
+| Remove "year", "day_cos", "day_sin"| 434,152.67         |
+
+
+Scenario 3 may be a valid option. Despite having a higher MSE, it allows us to reduce model complexity and work with fewer features.
+
+## Final Dataset After Feature Selection
+
+After applying **feature selection** (removing **"year"**, **"day_cos"**, and **"day_sin"**), the dataset is now optimized for model training. The resulting dataset contains the following columns:
+
+#### Columns:
+
+1. **trips**: The number of Citibike trips made during the specified hour.
+2. **holiday**: A binary indicator showing whether the day is a public holiday in New York City.
+   - **1**: Public holiday.
+   - **0**: Non-holiday day.
+3. **TMAX**: Maximum temperature (in Fahrenheit) for the day.
+4. **TMIN**: Minimum temperature (in Fahrenheit) for the day.
+5. **SNOW**: Snowfall (in inches) for the day.
+6. **hr_sin**: Sine transformation of the hour of the day (captures the cyclical nature of time).
+7. **hr_cos**: Cosine transformation of the hour of the day.
+8. **weekday_sin**: Sine transformation of the weekday (captures weekly cyclical patterns).
+9. **weekday_cos**: Cosine transformation of the weekday.
+10. **week_sin**: Sine transformation of the week number (captures weekly seasonal patterns).
+11. **week_cos**: Cosine transformation of the week number.
+12. **mnth_sin**: Sine transformation of the month number (captures monthly cyclical patterns).
+13. **mnth_cos**: Cosine transformation of the month number.
+
+### Sample Data:
+
+| Date                | Trips | Holiday | TMAX | TMIN | SNOW | Hr_sin  | Hr_cos  | Weekday_sin | Weekday_cos | Week_sin | Week_cos | Mnth_sin | Mnth_cos |
+|---------------------|-------|---------|------|------|------|---------|---------|-------------|-------------|----------|----------|----------|----------|
+| 2024-01-01 00:00:00 | 1862  | 1       | 47.0 | 36.0 | 0.0  | 0.0000  | 1.0000  | 0.0         | 1.0         | 0.0      | 1.0      | 0.0      | 1.0      |
+| 2024-01-01 01:00:00 | 2289  | 1       | 47.0 | 36.0 | 0.0  | 0.2588  | 0.9659  | 0.0         | 1.0         | 0.0      | 1.0      | 0.0      | 1.0      |
+| 2024-01-01 02:00:00 | 1902  | 1       | 47.0 | 36.0 | 0.0  | 0.5000  | 0.8660  | 0.0         | 1.0         | 0.0      | 1.0      | 0.0      | 1.0      |
+| 2024-01-01 03:00:00 | 1081  | 1       | 47.0 | 36.0 | 0.0  | 0.7071  | 0.7071  | 0.0         | 1.0         | 0.0      | 1.0      | 0.0      | 1.0      |
+| 2024-01-01 04:00:00 | 634   | 1       | 47.0 | 36.0 | 0.0  | 0.8660  | 0.5000  | 0.0         | 1.0         | 0.0      | 1.0      | 0.0      | 1.0      |
+
+### Purpose of the Dataset:
+This final dataset combines the **Citibike trip data** with **weather-related features** and temporal components. The selected features, including the sine and cosine transformations of time-based variables (e.g., **hour**, **weekday**, **week number**, and **month**), help capture the cyclical nature of bike usage. By merging **weather data** (e.g., **TMAX**, **TMIN**, **SNOW**) with trip data, we can analyze how **temperature** and **snow conditions** impact bike usage across different times of day and different seasons.
