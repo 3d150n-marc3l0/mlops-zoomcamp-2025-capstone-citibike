@@ -68,120 +68,12 @@ For detailed descriptions of these datasets, please refer to the [Datasets Docum
 
 
 
-### Environment Setup
+## Environment Setup
 
 This project requires certain tools and configurations to run correctly. You must ensure that Python 3.12, Docker, and Docker Compose are installed. Additionally, **Poetry** and **Poetry Shell** are used for dependency management and creating isolated environments.
 
 For detailed instructions on how to configure the environment and install the necessary tools, please refer to the [Environment Setup Guide](docs/config-environment.md).
 
-
-
-## Settings
-
-### Local Setting up
-
-### Dependency management
-
-This project uses the poetry tool for dependency management and packaging in Python. Therefore, this section explains the tool's installation and the project's library dependencies.
-
-
-
-#### Installing Poetry
-
-To install poetry, use the installation script available directly at install.python-poetry.org. You can run the script by typing the following command.
-
-```bash
-curl -sSL https://install.python-poetry.org | python3 -
-```
-
-Open your shell configuration file:
-Depending on the shell you're using, you'll need to modify a configuration file:
-
-- **Bash**: If you're using Bash, open the ~/.bashrc or ~/.bash_profile file.
-
-- **Zsh**: If you're using Zsh, open the ~/.zshrc file.
-
-- **Fish**: If you're using Fish, open the ~/.config/fish/config.fish file.
-
-For example, in shell option you have to open your shell configuration file (~/.bashrc) and 
-add `export PATH="/home/emmuzoo/.local/bin:$PATH"` to your shell configuration file.
-
-```bash
-vi ~/.bashrc
-...
-...
-...
-
-export PATH="/home/emmuzoo/.local/bin:$PATH"
-```
-
-After editing the file, apply the changes without having to close and reopen the terminal with:
-
-```bash
-source ~/.bashrc
-```
-
-You can test that everything is set up by executing:
-
-```bash
-poetry --version
-
-Poetry (version 2.1.3)
-```
-```bash
-which python3.11
-
-/usr/bin/python3.11
-```
-
-```bash
-poetry env use /usr/bin/python3.11
-```
-
-#### Installing pyenv
-
-By default, Poetry will try to use the Python version used during Poetry’s installation to create the virtual environment for the current project.
-
-```bash
-curl -fsSL https://pyenv.run | bash
-```
-
-
-```bash
-sudo apt update
-sudo apt install -y libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev curl \
-libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
-```
-
-
-
-```bash
-pyenv install 3.11.13
-```
-
-Activate Python 3.11 for the current project
-
-```bash
-pyenv local 3.11.13  # Activate Python 3.9 for the current project
-```
-
-```bash
-python --version
-Python 3.11.13
-```
-
-```bash
-poetry env use $(pyenv which python)
-```
-
-```bash
-poetry env use $(pyenv which python)
-Using virtualenv: /home/emmuzoo/.cache/pypoetry/virtualenvs/mlops-zoomcamp-2025-capstone-citibike-_1VljUqA-py3.11
-```
-
-```bash
-poetry install
-```
 
 
 #### Installing dependencies
