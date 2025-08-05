@@ -166,9 +166,38 @@ To ensure that the dependencies were installed correctly, run the following comm
 poetry show
 ```
 
-This command will list all the installed libraries in the Poetry-managed environment. Check that the required dependencies are present, such as ZenML and its integrations.
+### 2. Verify ZenML Initialization
+Before starting the project setup, ensure that ZenML is initialized in your environment. This is necessary to ensure that ZenML can properly manage your pipelines and integrations.
 
-### 2. **Install ZenML Dependencies (install-base)**
+#### Check for the ZenML configuration file:
+
+Navigate to the root directory of your project and check if the .zen/config.yaml file exists. This file indicates that ZenML has already been initialized.
+
+You can check for the file with the following command:
+
+```bash
+ls -a .zen/config.yaml
+```
+
+- If the file exists, ZenML has already been initialized, and you can proceed with the rest of the setup.
+- If the file does not exist, you need to initialize ZenML.
+
+#### Initialize ZenML (if needed):
+
+If the .zen/config.yaml file is missing, run the following command to initialize ZenML in your project:
+
+``` bash
+zenml init
+```
+
+This will create the necessary configuration file and directory structure for ZenML to manage your ML pipelines and integrations.
+
+#### Verify Initialization:
+
+Once the initialization is complete, you should see the .zen/config.yaml file in your project directory. This confirms that ZenML is set up and ready to use.
+
+
+### 3. **Install ZenML Dependencies (install-base)**
 
 Next, install the basic dependencies required for ZenML to operate. Use the Make command:
 
@@ -184,7 +213,7 @@ zenml integration list
 
 This command will list all the ZenML integrations and show that the required dependencies (e.g., MLflow, BentoML, S3(LocalStack), etc.) are installed.
 
-### 3. **Start ZenML (up)**
+### 4. **Start ZenML (up)**
 
 Once ZenML and its dependencies are installed, start ZenML and the associated services with Docker Compose:
 
@@ -211,7 +240,7 @@ c5993f3cd026   postgres:15                       "docker-entrypoint.s…"   38 m
 e6b5c933cd6f   mysql:8.0                         "docker-entrypoint.s…"   38 minutes ago   Up 38 minutes             0.0.0.0:3306->3306/tcp, [::]:3306->3306/tcp  
 ```
 
-### 4. **Login in Zenml**
+### 5. **Login in Zenml**
 
 Once the orchestration has started, type the following address into your browser  [shttp://localhost:8080/login](http://localhost:8080/login). 
 
@@ -234,7 +263,7 @@ The previous command provides us with a URL that we must type into a browser to 
 Once the device is authorized, we can make requests to the zenml server.
 
 
-### 5. **Set Up the MLOps Stack in ZenML (setup-local)**
+### 6. **Set Up the MLOps Stack in ZenML (setup-local)**
 
 Now that ZenML is running, set up the MLOps stack using the following Make command:
 
