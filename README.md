@@ -75,85 +75,9 @@ This project requires certain tools and configurations to run correctly. You mus
 For detailed instructions on how to configure the environment and install the necessary tools, please refer to the [Environment Setup Guide](docs/config-environment.md).
 
 
-## Run Workflow
+
+## Running the Workflow with ZenML
 
 
+This section covers the steps to execute the end-to-end workflow using ZenML. It details how to install necessary dependencies, set up the local ZenML stack, start services, and run the various pipelines for training, deployment, and monitoring. Follow the guide in the [Running the Workflow with ZenML](docs/running-workflow.md) document for a detailed breakdown of each operation.
 
-
-# Experiments
-## Notebooks
-
-To run jupyter lab you have to type the following commands:
-
-```bash
-cd notebooks/
-poetry run python jupyter lab
-```
-
-
-## Run
-
-### Run local
-
-To run locally, a docker-compose build was created, defining several services used during the execution of the pipelines in zenml.
-
-For ease of use, a makefile was created with the following operations:
-
-- up. Starts the services defined in docker-compose. Once localstack is started, it creates the buckets and restores the experiment information, if any.
-
-- down. Backs up the information contained in the localstack buckets to the experiment directory. Then, stop the services defined in docker-compose.
-
-
-### Run docker-compose 
-
-To start the services defined in docker-compose we must execute the following command.
-
-```batch
-make up
-```
-We check that the services have started correctly by executing the following command.
-
-```batch
-docker ps -a
-```
-
-As a result, we will obtain a list of containers that represent the services defined in the docker-compose file and its result should look like the following:
-
-```batch
-CONTAINER ID   IMAGE                             COMMAND                  CREATED          STATUS                    PORTS                                                          NAMES
-3b198eed3915   ghcr.io/mlflow/mlflow:latest      "/bin/sh -c 'python3…"   38 minutes ago   Up 37 minutes             0.0.0.0:5000->5000/tcp, [::]:5000->5000/tcp                    mlflow
-7e355152de07   zenmldocker/zenml-server:0.83.1   "/entrypoint.sh uvic…"   38 minutes ago   Up 38 minutes             0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp                    zenml
-26dff654ba11   localstack/localstack             "docker-entrypoint.sh"   38 minutes ago   Up 38 minutes (healthy)   127.0.0.1:4510-4559->4510-4559/tcp, 127.0.0.1:4566->4566/tcp   localstack
-c5993f3cd026   postgres:15                       "docker-entrypoint.s…"   38 minutes ago   Up 38 minutes             0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp                    mlflow-db
-537732dd3ee3   postgres:15                       "docker-entrypoint.s…"   38 minutes ago   Up 38 minutes             0.0.0.0:5433->5432/tcp, [::]:5433->5432/tcp                    grafana-db
-2b8fc8b9d60e   grafana/grafana-enterprise        "/run.sh"                38 minutes ago   Up 38 minutes             0.0.0.0:3030->3000/tcp, [::]:3030->3000/tcp                    grafana
-e6b5c933cd6f   mysql:8.0                         "docker-entrypoint.s…"   38 minutes ago   Up 38 minutes             0.0.0.0:3306->3306/tcp, [::]:3306->3306/tcp                    zenml-db
-```
-
-### Login in Zenml
-
-Once the orchestration is started, we need to log in from the command line, to do this we execute the following command:
-
-```batch
-zenml login http://localhost:8080
-```
-
-The previous command provides us with a URL that we must type into a browser to authorize our machine to run pipeline.
-
-
-
-### Down docker-compose
-
-To stop the services defined in docker-compose we must execute the following command.
-
-```batch
-make down
-```
-We check that the services have started correctly by executing the following command.
-
-```batch
-docker ps -a
-```
-The above command should not show any containers.
-
-## Reproducibility
