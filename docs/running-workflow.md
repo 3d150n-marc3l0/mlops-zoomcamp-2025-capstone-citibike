@@ -45,7 +45,7 @@ make down
 ```
 
 
-### **training***
+### **training**
 This command executes the training pipeline defined in your [`run.py`](../run.py) file. It loads the training configuration from [`pipelines.local.yaml`](../configs/zenml/pipelines.local.yaml) in the specified ZENML_CONFIG_PATH.
 
 ```bash
@@ -58,6 +58,60 @@ This command runs the deployment pipeline for BentoML, using the configuration f
 
 ```bash
 make deploy-bentoml
+```
+
+In the zenml web console, go to the pipelines tab and select the one that starts with the name "bentoml_deployment_pipeline".
+
+![image](images/zenml-pipeline-list-deploy.jpg)
+
+We will be shown a list of all the executions of the monitoring pipeline.
+
+![image](images/zenml-pipeline-deploy-list.jpg)
+
+We select the most recent execution
+
+![image](images/zenml-pipeline-deploy-workflow.jpg)
+
+By selecting the bentoml_model_deployer_step output, we can access the metadata tab where the address where the bentlo REST API service has been deployed will be shown.
+
+![image](images/zenml-pipeline-deploy-metadata.jpg)
+
+
+To view whether the bentoml REST API service has started correctly, type the following command:
+
+```bash
+zenml model-deployer models list
+```
+
+![image](images/zenml-pipeline-deploy-models-list.jpg)
+
+
+The bentoml REST API service endpoint is located at the following address [http://127.0.0.1:3000/](http://127.0.0.1:3000/):
+
+![image](images/zenml-pipeline-deploy-bentoml.jpg)
+
+#### Troubleshooting
+
+
+To view the REST API service logs with bentoml we must execute the following command.
+
+```bash
+zenml model-deployer models logs 155e16e0-fa12-421b-90ea-5ffb49275f34
+```
+
+
+There are times when the deployment may fail and ZenML may not be able to replace the REST API service correctly. To do this, we must delete the deployed model with the following commands.
+
+We search for the identifier of the deployed model with the following command.
+
+```bash
+zenml model-deployer models list
+```
+
+We copy the identifier of the deployed model "UUID" and execute the following command to delete the deployed model.
+
+```bash
+zenml model-deployer models remove 155e16e0-fa12-421b-90ea-5ffb49275f34
 ```
 
 
@@ -81,12 +135,12 @@ We select the most recent execution
 
 ![image](images/zenml-pipeline-monitoring-workflow.jpg)
 
-The second way to see data drifting is through the workflow and selecting the 'report_html' result from the 'evidently_report_step' step.
+A way of seeing data drifting is through the workflow and selecting the 'report_html' result from the 'evidently_report_step' step.
 
 ![image](images/zenml-pipeline-monitoring-evidently.jpg)
 
 
-To view model monitoring, there are two ways. The first is through Grafana. To do this, go to the following address [http://localhost:3030/dashboards](http://localhost:3030/dashboards).
+Another way to view monitoring is through a dashboard in Grafana. To do this, go to the following address [http://localhost:3030/dashboards](http://localhost:3030/dashboards).
 
 
 ![image](images/grafana-monitoring-list.jpg)
