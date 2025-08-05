@@ -1,25 +1,88 @@
 # mlops-zoomcamp-2025-capstone-citibike
-mlops-zoomcamp 2025 capstone
-# de-zoomcamp-2025-capstone-baywheels
+
+![image](docs/images/citibike-banner.jpg)
+
 
 ## Introduction
 
+The Citibike system in New York City provides a convenient and sustainable mode of transportation for both residents and tourists. However, managing the system efficiently involves addressing several challenges, including optimizing bike availability, predicting demand across different areas, and minimizing system downtime.
+
+Key challenges include:
+
+- Bike Availability: Ensuring that bikes are available at stations where demand is highest, especially during peak hours.
+
+- Usage Patterns: Understanding how weather, time of day, and special events affect bike usage.
+
+- Maintenance and Downtime: Minimizing the time bikes are unavailable due to maintenance or malfunction.
+
+Analyzing and predicting these patterns is crucial for improving the user experience and operational efficiency, reducing costs, and supporting the growth of bike-sharing systems as an eco-friendly alternative to traditional transportation.
+
+
 ### Objectives
+
+
 
 ### Overview
 
+This project aims to build a prediction model for bike trips using the Citibike NYC dataset. The model will forecast the number of trips per hour, providing valuable insights into bike availability and demand. After developing the predictive model, the project will focus on implementing an MLOps pipeline to manage the machine learning lifecycle, from model training and deployment to monitoring and maintenance.
 
+To achieve this, the following tasks will be carried out:
+
+- Predict the number of bike trips per hour: The goal is to develop a regression model to predict the number of trips for each hour of the day. This will provide insights for future bike availability, helping optimize the distribution of bikes across stations.
+
+- Incorporate weather data: Weather conditions are expected to significantly influence bike usage. By integrating meteorological data into the model, we aim to improve the accuracy of predictions based on environmental factors such as temperature, precipitation, and wind speed.
+
+- Set up an MLOps ecosystem: The project will focus on configuring a robust MLOps pipeline for the deployment and management of the regression model. This will ensure seamless training, versioning, and deployment processes.
+
+- Develop training and deployment pipelines: We will design and implement efficient data pipelines for model training and deployment, ensuring scalability and automation throughout the machine learning lifecycle.
+
+- Deploy the model and expose it via a REST API: Once the model is trained, it will be deployed in a production environment, where it will be accessible through a REST API for real-time predictions and integration with other systems.
+
+- Monitor the model and detect data drift: After deployment, continuous monitoring will be implemented to track model performance. Data drift will be detected to ensure the model remains accurate and reliable over time.
+
+- Implement best practices: The project will follow best practices, including unit testing, integrating linting and formatting tools (e.g., black, flake8), setting up pre-commit hooks, and creating a Makefile to streamline development and ensure code quality.
 
 ## Technologies
 
-- **Poetry**.
-- **Zenml**.
-- **Mlflow**.
-- **Optuna**.
-- **Bentoml**.
-- **localstack**.
+State-of-the-art software tools were used to carry out this project. These tools are briefly described below.
 
+- **Python (3.12.3)**. Python is a high-level, interpreted programming language widely used in data science, machine learning, and web development. Version 3.12.3 offers enhanced performance and new features for more efficient coding.
 
+- **Poetry (2.1.3)**. Poetry is a Python dependency management and packaging tool that helps manage libraries and environments. It simplifies the process of declaring, installing, and updating dependencies in Python projects.
+
+- **Poetry Shell**. The `poetry shell` command activates a virtual environment managed by Poetry. It allows developers to work within an isolated environment, ensuring that dependencies do not conflict with other projects.
+
+- **ZenML (0.83.1)**. ZenML is an open-source machine learning (ML) pipeline library that enables reproducibility, collaboration, and automation of ML workflows. It helps in managing and tracking data, models, and experiments across pipelines.
+
+- **MLflow (2.22.1)**. MLflow is an open-source platform for managing the machine learning lifecycle, including experimentation, reproducibility, and deployment. It supports tracking experiments, packaging code into reproducible runs, and managing models.
+
+- **Optuna (3.6.2)**. Optuna is a hyperparameter optimization framework designed to automate the search for the best hyperparameters. It supports efficient and flexible optimization processes, ideal for machine learning model tuning.
+
+- **XGBoost (3.0.3)**. XGBoost is an optimized gradient boosting library designed for speed and performance. It is widely used for structured/tabular data and is highly effective in predictive modeling and machine learning competitions.
+
+- **BentoML (1.4.19)**. BentoML is a flexible framework for serving, managing, and deploying machine learning models in production. It simplifies the process of packaging and deploying models as REST APIs or batch inference services.
+
+- **Evently (0.4.22)**. Evently is a lightweight event-driven framework for ML workflows. It simplifies the management of events and tasks in ML pipelines, improving automation and coordination in model deployment processes.
+
+- **NumPy (1.26.4)**. NumPy is a fundamental library for numerical computing in Python. It provides support for large, multi-dimensional arrays and matrices, along with a collection of mathematical functions to operate on them.
+
+- **Scikit-learn (1.5.2)**. Scikit-learn is a powerful Python library for machine learning, providing tools for data preprocessing, feature selection, and algorithms for classification, regression, clustering, and more.
+
+- **LocalStack**. LocalStack is a fully functional local AWS cloud stack. It allows developers to run AWS services locally, which is useful for testing and development without incurring costs or requiring an internet connection.
+
+- **Docker**. Docker is a platform used to develop, ship, and run applications in containers. It allows for consistent environments across different stages of development and production, making it easier to deploy and scale applications.
+
+- **Grafana**. Grafana is an open-source visualization and monitoring platform that integrates with various data sources. It is commonly used for monitoring and visualizing machine learning model performance, logs, and metrics.
+
+- **Docker-compose**. Docker Compose is a tool for defining and running multi-container Docker applications. It allows developers to manage complex setups and services in an easy-to-use YAML configuration.
+
+- **Pytest (8.4.1)**. Pytest is a testing framework for Python that enables writing simple and scalable test cases. It supports fixtures, parameterized testing, and rich plugins, making it an essential tool for unit and integration testing in Python projects.
+
+- **Black (25.1.0)**. Black is an uncompromising Python code formatter. It automatically formats Python code to adhere to PEP 8 standards, promoting consistency and improving readability across teams.
+
+- **Flake8 (7.3.0)**. Flake8 is a tool for checking the style guide enforcement and linting in Python code. It combines various linters to check for errors, unused code, and other violations of Python coding standards.
+
+- **Pre-commit**. Pre-commit is a framework for managing and maintaining multi-language pre-commit hooks. It automates code quality checks, including linting and formatting, before code is committed to version control, ensuring that code adheres to best practices.
 ## Dataset
 
 
@@ -31,6 +94,8 @@ mlops-zoomcamp 2025 capstone
 ### Dependency management
 
 This project uses the poetry tool for dependency management and packaging in Python. Therefore, this section explains the tool's installation and the project's library dependencies.
+
+
 
 #### Installing Poetry
 
@@ -73,6 +138,60 @@ You can test that everything is set up by executing:
 poetry --version
 
 Poetry (version 2.1.3)
+```
+```bash
+which python3.11
+
+/usr/bin/python3.11
+```
+
+```bash
+poetry env use /usr/bin/python3.11
+```
+
+#### Installing pyenv
+
+By default, Poetry will try to use the Python version used during Poetry’s installation to create the virtual environment for the current project.
+
+```bash
+curl -fsSL https://pyenv.run | bash
+```
+
+
+```bash
+sudo apt update
+sudo apt install -y libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev curl \
+libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+```
+
+
+
+```bash
+pyenv install 3.11.13
+```
+
+Activate Python 3.11 for the current project
+
+```bash
+pyenv local 3.11.13  # Activate Python 3.9 for the current project
+```
+
+```bash
+python --version
+Python 3.11.13
+```
+
+```bash
+poetry env use $(pyenv which python)
+```
+
+```bash
+poetry env use $(pyenv which python)
+Using virtualenv: /home/emmuzoo/.cache/pypoetry/virtualenvs/mlops-zoomcamp-2025-capstone-citibike-_1VljUqA-py3.11
+```
+
+```bash
+poetry install
 ```
 
 
