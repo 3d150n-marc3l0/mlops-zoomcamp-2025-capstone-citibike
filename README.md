@@ -66,6 +66,13 @@ This project uses two primary datasets:
 
 For detailed descriptions of these datasets, please refer to the [Datasets Documentation](docs/datasets.md).
 
+## ML Workflow
+
+This section describes the end-to-end machine learning workflow, from data processing and training to model deployment and monitoring. The workflow utilizes ZenML for orchestration, MLflow for tracking and model registry, BentoML for deployment, and Evidently for model monitoring to detect drift.
+
+You can learn more about the detailed workflow in the [ML Workflow documentation](docs/ml-workflow.md).
+
+
 ## **Architecture Overview**
 
 This section provides an in-depth look at the architecture of the project, detailing the different modules involved and how they interact within the system. The architecture includes components for training, deployment, and monitoring, leveraging ZenML, BentoML, MLflow, and other essential technologies.
