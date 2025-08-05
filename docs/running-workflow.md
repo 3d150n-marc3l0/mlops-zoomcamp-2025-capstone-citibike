@@ -58,7 +58,15 @@ In the zenml web console, go to the pipelines tab and select the one that starts
 
 We will be shown a list of all the executions of the training pipeline.
 
+![image](images/zenml-pipeline-train-list.jpg)
+
 We select the most recent execution
+
+![image](images/zenml-pipeline-train-workflow.jpg)
+
+The window on the right offers multiple options for viewing logs, metadata, configuration, and pipeline execution logs. Selecting a specific step will show the specific executions for that step.
+
+![image](images/zenml-pipeline-train-logs.jpg)
 
 
 This project uses mlflow to record experiments. The mlflow service runs at the following address [http://localhost:5000/](http://localhost:5000/).
