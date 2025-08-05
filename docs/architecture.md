@@ -381,6 +381,63 @@ The [`run.py`](../run.py) module is responsible for calling the various pipeline
     - **Function**: It calls `batch_monitoring_backfill`, passing the parameters from the config file to fetch relevant data for monitoring and calculating drift.
 
 
+## **Citibike REST API Service**
+The [CitibikeService](../deployment/bentoml/service.py) is a **REST API** that uses a trained **XGBoost** model to predict the number of Citibike trips based on various input features, including weather data and time-based features. The service exposes two API endpoints for predictions:
+
+- `/predict`: For batch predictions based on a set of time-based and weather features.
+
+- `/predict_trip`: For single-trip predictions, where input includes the date and weather features, and the service processes the data before making predictions.
+
+### Service Overview
+
+The CitibikeService class is built using BentoML and provides two main prediction methods:
+
+predict: This method takes a list of prepared features and returns the predicted number of trips.
+
+predict_trip: This method is more flexible, allowing the user to send a single trip's date and weather data. The service processes this data, computes cyclical time features, and returns the prediction for that trip.
+
+### Inputs
+**/predict (Batch Prediction)**
+* **Input Model**: `CitibikeInput`
+
+* This method accepts a list of CitibikeInput objects containing the following fields:
+
+    - `holiday`: Binary indicator (0 for non-holiday, 1 for holiday)
+
+    - `TMAX`: Maximum temperature (in Fahrenheit)
+
+    - `TMIN`: Minimum temperature (in Fahrenheit)
+
+    - `SNOW`: Snowfall (in inches)
+
+    - `hr_sin`: Sine transformation of the hour (captures cyclical nature of time)
+
+    - `hr_cos`: Cosine transformation of the hour
+
+    - `weekday_sin`: Sine transformation of the weekday
+
+    - `weekday_cos`: Cosine transformation of the weekday
+
+    - `week_sin`: Sine transformation of the week
+
+    - `week_cos`: Cosine transformation of the week
+
+    - `mnth_sin`: Sine transformation of the month
+
+    - `mnth_cos`: Cosine transformation of the month
+
+**/predict_trip (Single Trip Prediction)**
+* **Input Model**: `CitibikeRawInput`
+
+* This method accepts a list of CitibikeRawInput objects containing:
+
+    - `date`: The date of the trip (used to calculate time features)
+
+    - `TMAX`: Maximum temperature (in Fahrenheit)
+
+    - `TMIN`: Minimum temperature (in Fahrenheit)
+
+    - `SNOW`: Snowfall (in inches)
 
 
 ## Storage: Buckets

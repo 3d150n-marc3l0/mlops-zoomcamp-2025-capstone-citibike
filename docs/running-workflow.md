@@ -123,6 +123,123 @@ The bentoml REST API service endpoint is located at the following address [http:
 
 ![image](images/zenml-pipeline-deploy-bentoml.jpg)
 
+
+### API Endpoints
+1. **POST /predict**
+    - Purpose: Make batch predictions using a list of processed input features.
+
+    - Request Body: A JSON array of CitibikeInput objects.
+
+    - Response: A JSON object containing predictions for each input.
+
+![image](images/zenml-pipeline-deploy-bentoml-predict.jpg)
+
+Example Request:
+
+```bash
+{
+ "input_data": [ 
+  {
+    "holiday": 0,
+    "TMAX": 28.0,
+    "TMIN": 17.0,
+    "SNOW": 1.0,
+    "hr_sin": 0.5,
+    "hr_cos": 0.866,
+    "weekday_sin": 0.0,
+    "weekday_cos": 1.0,
+    "week_sin": 0.707,
+    "week_cos": 0.707,
+    "mnth_sin": 0.5,
+    "mnth_cos": 0.866
+  }
+ ]
+}
+```
+
+Example Response:
+
+```bash
+{
+  "predictions": [
+    {
+      "model": "xgb-citibike-reg-model",
+      "prediction": 1234
+    }
+  ]
+}
+```
+
+2. **POST /predict_trip**
+    - Purpose: Make a prediction for a single Citibike trip based on date and weather features.
+
+    - Request Body: A JSON array of CitibikeRawInput objects.
+
+    - Response: A JSON object with the predicted trip count.
+
+![image](images/zenml-pipeline-deploy-bentoml-predict-trip.jpg)
+
+Example Request:
+
+```bash
+{
+ "input_data": [ 
+  {
+    "date": "2025-01-01T00:00:00",
+    "TMAX": 52.0,
+    "TMIN": 40.0,
+    "SNOW": 0.0
+  }
+ ]
+}
+```
+
+Example Response:
+
+```bash
+{
+  "predictions": [
+    {
+      "model": "xgb-citibike-reg-model",
+      "prediction": 1583
+    }
+  ]
+}
+```
+
+### Testing the API
+To test the API, follow these steps:
+
+1. Start the BentoML service:
+
+    - Ensure that the service is running. You can do this by using BentoML's CLI or directly through Docker if the service is containerized.
+
+2. Make a Request:
+
+    - You can use a tool like Postman, curl, or any HTTP client to make a POST request to the relevant endpoint (/predict or /predict_trip).
+
+3. Inspect the Response:
+
+    - The response will contain the predicted trip count for the given input data. Compare the results with the actual data to assess the model's accuracy.
+
+Example curl command to test the /predict_trip endpoint:
+
+```bash
+curl -X POST http://localhost:3000/predict_trip \
+-H "Content-Type: application/json" \
+-d '{
+ "input_data": [ 
+    {
+        "date": "2025-01-01T00:00:00",
+        "TMAX": 52.0,
+        "TMIN": 40.0,
+        "SNOW": 0.0
+    }
+  ]
+}'
+```
+
+
 #### Troubleshooting
 
 
@@ -268,5 +385,5 @@ This notebook is focused on training the machine learning model. It includes sev
 - **Experiment Tracking**: Registering all experiments and results using MLflow for versioning and tracking model performance over time.
 The primary goal is to build a regression model to predict bike trips, considering features like weather conditions and bike usage patterns.
 
-### 3. Monitoring.ipynb:
+#### 3. Monitoring.ipynb:
 This notebook is dedicated to monitoring the model's performance over time. It leverages Evidently to detect data drift and monitor changes in data distribution, which can impact the model's performance. The goal is to continuously track the model's predictions and identify any shifts in the underlying data that may require model retraining.
