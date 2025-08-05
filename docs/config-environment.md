@@ -267,3 +267,42 @@ The 's3_secret' secret contains the credentials to connect to localstack.
 The 'pg_monitoring_secret' secret contains the credentials to connect to the monitoring database.
 
 ![image](images/zenml-secrets-pg-monitoring.jpg)
+
+
+## Troubleshooting
+
+### Addressing Request Redirection Issues
+
+In some cases, due to the containerized environment, there may be issues with service requests being redirected. To resolve this, you need to add the following entries to your system's hosts file to ensure proper routing to the LocalStack and MLflow services.
+
+#### **For Linux:**
+
+##### 1. Edit your system's hosts file:
+- Open the /etc/hosts file using your preferred text editor with root permissions. For example, using nano:
+
+```bash
+sudo nano /etc/hosts
+```
+
+##### 2. Add the following entries to the hosts file:
+
+```textplain
+127.0.0.1 localstack
+127.0.0.1 mlflow
+```
+##### 3. Save the file:
+
+- In nano, press CTRL + X, then Y to confirm, and press Enter to save.
+
+### **For Windows:**
+
+##### 1. Edit the hosts file:
+- Open the hosts file located in C:\Windows\System32\drivers\etc\hosts using a text editor with administrative privileges (e.g., Notepad run as Administrator).
+
+##### 2. Add the following entries to the hosts file:
+
+```textplaint
+127.0.0.1 localstack
+127.0.0.1 mlflow
+```
+##### 3. Save the file.
