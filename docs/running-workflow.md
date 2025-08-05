@@ -188,3 +188,85 @@ This target runs the integration tests defined in the tests/integration director
 ```bash
 make test-integration
 ```
+
+## Using Pre-commit with Flake8 and Black
+
+In this project, we have integrated pre-commit hooks to automate the process of ensuring code quality and consistent formatting for Python files. Specifically, we are using flake8 for code style checks and black for automatic code formatting.
+
+### **How it works:**
+- Pre-commit hooks are automatically triggered before every commit.
+
+- When you run git commit, pre-commit will execute both flake8 and black on Python files:
+
+    - flake8 checks your Python code for any potential style violations or errors, such as indentation issues, unused imports, or logical problems.
+
+    - black automatically formats your Python code to adhere to a consistent style.
+
+### Example Workflow:
+
+1. After making changes to your Python files, you run:
+
+```basht
+git add .
+git commit -m "Your commit message"
+```
+
+2. **pre-commit** will automatically run the configured hooks. It will first check the Python files with flake8 and then format them with black.
+
+3. If any issues are found by flake8, the commit will be rejected, and you will need to fix the identified problems. If black detects formatting issues, it will reformat the code automatically.
+
+4. Once all checks pass, the commit is completed successfully.
+
+This ensures that all Python code follows the specified style and is free from common errors, making it easier to maintain and review.
+
+## Running Jupyter Notebooks
+
+### Run Jupyter
+
+To execute your notebooks, follow these steps:
+
+### 1. Navigate to the Notebooks Directory:
+Open your terminal and go to the directory where your notebooks are stored. For example:
+
+```bash
+cd notebooks
+```
+
+### 2. Start Jupyter Lab:
+
+Once you're in the notebooks directory, start Jupyter Lab by running the following command:
+
+```bash
+jupyter lab
+```
+
+
+### Notebooks Overview
+
+#### 1. EDA.ipynb:
+This notebook focuses on Exploratory Data Analysis (EDA). It processes the CitiBike NYC dataset and the 2024 and 2025 weather datasets to create the training and test datasets. The notebook explores and visualizes the data to identify key patterns, distributions, and relationships. Key tasks include:
+
+- **Data Cleaning**: Handling missing values, outliers, and duplicates.
+
+- **Feature Engineering**: Preparing the data for machine learning, such as creating time-related features or encoding categorical variables.
+
+- **Data Preprocessing**: Merging the CitiBike and weather datasets to align bike trip data with corresponding weather information for each time period.
+
+- **Splitting Data**: Creating the training and test datasets that will be used in later stages of the machine learning pipeline.
+
+**Note**: This notebook can be memory-intensive due to the large datasets and the complex visualizations. If the kernel runs out of memory, it may need to be restarted.
+
+#### 2. Training.ipynb:
+This notebook is focused on training the machine learning model. It includes several steps, such as:
+
+- **Feature Selection**: Experimenting with different sets of features to find the most relevant ones for model training.
+
+- **Feature Engineering**: Creating new features or transforming existing ones to improve model performance.
+
+- **Hyperparameter Optimization (HPA)**: Using Optuna for hyperparameter tuning to find the best configuration for the model.
+
+- **Experiment Tracking**: Registering all experiments and results using MLflow for versioning and tracking model performance over time.
+The primary goal is to build a regression model to predict bike trips, considering features like weather conditions and bike usage patterns.
+
+### 3. Monitoring.ipynb:
+This notebook is dedicated to monitoring the model's performance over time. It leverages Evidently to detect data drift and monitor changes in data distribution, which can impact the model's performance. The goal is to continuously track the model's predictions and identify any shifts in the underlying data that may require model retraining.
