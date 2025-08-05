@@ -106,6 +106,13 @@ For detailed descriptions of these datasets, please refer to the [Datasets Docum
 
 
 
+### Environment Setup
+
+This project requires certain tools and configurations to run correctly. You must ensure that Python 3.12, Docker, and Docker Compose are installed. Additionally, **Poetry** and **Poetry Shell** are used for dependency management and creating isolated environments.
+
+For detailed instructions on how to configure the environment and install the necessary tools, please refer to the [Environment Setup Guide](docs/config-environment.md).
+
+
 
 ## Settings
 
