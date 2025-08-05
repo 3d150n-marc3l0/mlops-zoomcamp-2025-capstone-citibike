@@ -36,6 +36,18 @@ Once the orchestration has started, We log in to the web console which is at the
 ![image](images/zenml-login.jpg)
 
 
+In order to request the execution of commands or pipelines on the server, we must obtain a token from it. To do this, we need to log in from the command line, to do this we execute the following command:
+
+```batch
+zenml login http://localhost:8080
+```
+
+The previous command provides us with a URL that we must type into a browser to authorize our machine to run pipeline.
+
+![image](images/zenml-authorize-device.jpg)
+
+
+Once the device is authorized, we can make requests to the zenml server.
 
 ###  **down**
 This command stops all Docker Compose containers and saves the current LocalStack state (e.g., buckets and configurations) by running localstack-backup.sh. This ensures that the state is preserved when the containers are stopped.
