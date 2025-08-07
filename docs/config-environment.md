@@ -242,12 +242,19 @@ e6b5c933cd6f   mysql:8.0                         "docker-entrypoint.s…"   38 m
 
 ### 5. **Login in Zenml**
 
-Once the orchestration has started, type the following address into your browser  [shttp://localhost:8080/login](http://localhost:8080/login). 
+Once the orchestration has started, type the following address into your browser  [http://localhost:8080](http://localhost:8080). 
 
-The first time you start the ZenML server, you'll be presented with a web page to create a user in ZenML. Upon subsequent server startups, you must log in with the created user.
+The first time you start the ZenML server, you'll be presented with a web page to create a user in ZenML. 
+
+![image](images/zenml-new-user.jpg)
+
+Upon subsequent server startups, you must log in with the created user  [http://localhost:8080/login](http://localhost:8080/login).
 
 ![image](images/zenml-login.jpg)
 
+After following all the user creation steps, go to the projects page, which is located at the following path: [http://localhost:8080/projects](http://localhost:8080/projects).
+
+![image](images/zenml-projects-empty.jpg)
 
 In order to request the execution of commands or pipelines on the server, we must obtain a token from it. To do this, we need to log in from the command line, to do this we execute the following command:
 
@@ -255,10 +262,12 @@ In order to request the execution of commands or pipelines on the server, we mus
 zenml login http://localhost:8080
 ```
 
+![image](images/zenml-login-url.jpg)
+
+
 The previous command provides us with a URL that we must type into a browser to authorize our machine to run pipeline.
 
 ![image](images/zenml-authorize-device.jpg)
-
 
 Once the device is authorized, we can make requests to the zenml server.
 
@@ -273,19 +282,19 @@ make setup-local
 
 You can verify the setup by checking the ZenML Console or Web UI. After running make setup-local, check the ZenML interface to ensure the MLOps stack (including MLflow, BentoML, LocalStack) has been successfully configured. You can add relevant screenshots of the ZenML Console for visual confirmation.
 
-To verify the creation of the stack within the web console we navigate to the stack tab
+To verify the creation of the stack within the web console we navigate to the [stack tab](http://localhost:8080/stacks) 
 
 ![image](images/zenml-stack.jpg)
 
-To verify the creation of the stack components within the web console, navigate to the components tab.
+To verify the creation of the stack components within the web console, navigate to the [components tab](http://localhost:8080/components).
 
 ![image](images/zenml-componets.jpg)
 
 We select the 'localstack store' component to see the configuration and arguments to establish the connection with localstack
 
-![image](images/zenml-componets.jpg)
+![image](images/zenml-componets-s3-locastack.jpg)
 
-Two secrets have been created with the credentials to connect to the localstack (s3) and the monitoring database. To verify the creation of the secrets within the web console, navigate to the Settings tab and select the Secrets option.
+Two secrets have been created with the credentials to connect to the localstack (s3) and the monitoring database. To verify the creation of the secrets within the web console, navigate to the [Settings tab](http://localhost:8080/settings/general) and select the [Secrets option](http://localhost:8080/settings/secrets).
 
 ![image](images/zenml-secrets.jpg)
 

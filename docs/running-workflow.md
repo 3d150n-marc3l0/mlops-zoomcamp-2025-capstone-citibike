@@ -254,8 +254,13 @@ curl -X POST http://localhost:3000/predict_trip \
 
 #### Troubleshooting
 
+To view the REST API service logs with bentoml we must search for the identifier of the deployed model with the following command.
 
-To view the REST API service logs with bentoml we must execute the following command.
+```bash
+zenml model-deployer models list
+```
+
+We copy the identifier of the deployed model "UUID" and execute the following command to view the deployed model logs.
 
 ```bash
 zenml model-deployer models logs 155e16e0-fa12-421b-90ea-5ffb49275f34
