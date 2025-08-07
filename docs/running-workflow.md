@@ -307,7 +307,7 @@ A way of seeing data drifting is through the workflow and selecting the 'report_
 ![image](images/zenml-pipeline-monitoring-evidently.jpg)
 
 
-Another way to view monitoring is through a dashboard in Grafana. To do this, go to the following address [http://localhost:3030/dashboards](http://localhost:3030/dashboards).
+Another way to view monitoring is through a dashboard in Grafana. The first time we access Grafana at the following address [http://localhost:3030](http://localhost:3030), it will ask us for a default username and password, which are user=admin and password=admin. Then, it will ask us to change the password. Finally, to view the monitoring dashboard, we must go to [the dashboard section](http://localhost:3030/dashboards) in Grafana.
 
 
 ![image](images/grafana-monitoring-list.jpg)
