@@ -64,7 +64,7 @@ This command executes the training pipeline defined in your [`run.py`](../run.py
 make training
 ```
 
-In the zenml web console, go to the pipelines tab and select the one that starts with the name "citibike_training_pipeline". 
+In the zenml web console, go to the [pipelines tab](http://localhost:8080/projects/default/pipelines) and select the one that starts with the name "citibike_training_pipeline". 
 
 ![image](images/zenml-pipeline-list-train.jpg)
 
